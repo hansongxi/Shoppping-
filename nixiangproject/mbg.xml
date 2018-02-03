@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+	<!-- targetRuntime: Mybatis3: 生成带条件的增删改查 豪华版 Mybatis3Simple: 生成基本的增删改查 简单版 -->
+	<context id="DB2Tables" targetRuntime="Mybatis3Simple">
+		<!-- 抑制注释 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!-- 数据库的连接信息 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/dianshang" userId="root"
+			password="19950504">
+		</jdbcConnection>
+
+
+		<!-- javaBean的生成策略 targetPackage：生成的目标包 targetProject：生成的目标工程. -->
+		<javaModelGenerator targetPackage="com.atguigu.mybatis.beans"
+			targetProject=".\src">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<!-- Sql映射文件的生成策略 -->
+		<sqlMapGenerator targetPackage="com.atguigu.mybatis.dao"
+			targetProject=".\conf">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!-- Mapper接口的生成策略 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.atguigu.mybatis.dao" targetProject=".\src">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<!-- 配置要逆向分析的表 -->
+		<table tableName="t_mall_class_1" domainObjectName="T_MALL_CLASS_1" />
+		<table tableName="t_mall_class_2" domainObjectName="T_MALL_CLASS_2" />
+		<table tableName="t_mall_trade_mark" domainObjectName="T_MALL_TRADE_MARK" />
+		<table tableName="t_mall_tm_class" domainObjectName="T_MALL_TM_CLASS" />
+
+	</context>
+</generatorConfiguration>

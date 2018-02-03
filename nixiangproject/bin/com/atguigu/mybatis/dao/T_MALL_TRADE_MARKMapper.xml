@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mybatis.dao.T_MALL_TRADE_MARKMapper">
+  <resultMap id="BaseResultMap" type="com.atguigu.mybatis.beans.T_MALL_TRADE_MARK">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="ppmch" jdbcType="VARCHAR" property="ppmch" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_mall_trade_mark
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.atguigu.mybatis.beans.T_MALL_TRADE_MARK">
+    insert into t_mall_trade_mark (Id, ppmch, url
+      )
+    values (#{id,jdbcType=INTEGER}, #{ppmch,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.mybatis.beans.T_MALL_TRADE_MARK">
+    update t_mall_trade_mark
+    set ppmch = #{ppmch,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select Id, ppmch, url
+    from t_mall_trade_mark
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select Id, ppmch, url
+    from t_mall_trade_mark
+  </select>
+  <resultMap id="BaseResultMap" type="com.atguigu.mybatis.beans.T_MALL_TRADE_MARK">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="ppmch" jdbcType="VARCHAR" property="ppmch" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_mall_trade_mark
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.atguigu.mybatis.beans.T_MALL_TRADE_MARK">
+    insert into t_mall_trade_mark (Id, ppmch, url
+      )
+    values (#{id,jdbcType=INTEGER}, #{ppmch,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.mybatis.beans.T_MALL_TRADE_MARK">
+    update t_mall_trade_mark
+    set ppmch = #{ppmch,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select Id, ppmch, url
+    from t_mall_trade_mark
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select Id, ppmch, url
+    from t_mall_trade_mark
+  </select>
+</mapper>

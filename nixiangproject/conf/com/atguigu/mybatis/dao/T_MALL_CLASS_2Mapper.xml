@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.mybatis.dao.T_MALL_CLASS_2Mapper" >
+  <resultMap id="BaseResultMap" type="com.atguigu.mybatis.beans.T_MALL_CLASS_2" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="flmch2" property="flmch2" jdbcType="VARCHAR" />
+    <result column="flbh1" property="flbh1" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_mall_class_2
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.atguigu.mybatis.beans.T_MALL_CLASS_2" >
+    insert into t_mall_class_2 (Id, flmch2, flbh1
+      )
+    values (#{id,jdbcType=INTEGER}, #{flmch2,jdbcType=VARCHAR}, #{flbh1,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.mybatis.beans.T_MALL_CLASS_2" >
+    update t_mall_class_2
+    set flmch2 = #{flmch2,jdbcType=VARCHAR},
+      flbh1 = #{flbh1,jdbcType=INTEGER}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select Id, flmch2, flbh1
+    from t_mall_class_2
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select Id, flmch2, flbh1
+    from t_mall_class_2
+  </select>
+</mapper>

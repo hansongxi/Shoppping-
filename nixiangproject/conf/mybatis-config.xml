@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 
+	DTD: 文档类型定义.   定义了xml文件中可以编写哪些标签，以及标签的属性，子标签等.
+	XSD
+-->
+
+<configuration>
+	<!-- 1. properties : 引入外部化的properties类型的文件
+		 resource: 引入类路径下的资源
+		 url: 引入网络路径或者是磁盘路径下的资源.
+	 -->
+	<properties resource="db.properties"></properties>
+	
+	<!-- 2. settings: 包含了很重要的设置项，影响着MyBatis的运行行为 -->
+	<settings>
+		<!-- 将下划线命名 映射成 驼峰命名 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<!-- 设置Mybatis对NULL值的默认处理 -->
+		<setting name="jdbcTypeForNull" value="NULL"/>
+		
+		<!-- 配置开启延迟加载 -->
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<!-- 配置加载的属性是按需加载还是全部加载 -->
+		<setting name="aggressiveLazyLoading" value="false"/>
+		
+		<!-- 配置使用二级缓存 -->
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
+	
+	<!-- 3.typeAliases: 别名处理  为java类型取别名，方便配置.
+		    typeAlias:给单个的java类型取别名，默认别名是类名首字母小写，别名不区分大小写，可以通过alias来手动指定别名
+		    package: 批量取别名， 给指定的包下的类取默认的别名.
+	 -->
+	<typeAliases>
+		<!-- <typeAlias type="com.atguigu.mybatis.helloWorld.Employee"  alias="emp"/> -->
+		<package name="com.atguigu.mybatis.helloWorld"/>
+	</typeAliases>
+	
+	<!-- 4. typeHandlers:  类型处理器.  架起java类型与数据库类型之间相互转换的桥梁. 
+			
+			如果想使用JDK8提供的最新的时间日期处理的API, 如果MyBatis的版本是3.4之前的，
+			则需要使用mybatis-typehandlers-jsr310 ,手动的将最新的类型处理器注册进来.
+	-->
+	
+	<!-- 5. plugins: 插件， MyBatis允许使用插件机制拦截四大对象的相关方法的调用过程
+		    Executor: 执行器  用于执行增删改查操作
+		    ParameterHandler: 参数处理器， 用于设置sql语句的参数
+		    ResultSetHandler: 结果集处理器 ，用于封装结果集
+		    StatementHandler: sql语句处理器，用于编译SQL语句
+		    
+		    PageHelper： 分页插件，基于插件的机制动态的完成分页操作.
+	 -->
+	
+	
+	<!-- 6.environments:数据库的连接环境们. 通过default来指定具体使用的环境.
+		  	environment:
+		  		id: 唯一标识
+		  		transactionManager: 事务管理器.
+		  			JDBC: JdbcTransactionFactory
+		  			MANAGED: ManagedTransactionFactory
+		  			最终: 交给Spring的声明式事务进行事务管理
+		  		dataSource: 数据源
+		  			UNPOOLED: 不使用连接池
+		  			POOLED : 使用连接池
+		  			JNDI :从web应用服务器来获取连接.
+		  			最终: 交给Spring管理连接池
+	 -->
+	<environments default="mysql">
+		
+		<environment id="mysql">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+		</environment>
+		
+		<environment id="oracle">
+			<transactionManager type="JDBC"></transactionManager>
+			<dataSource type="POOLED">
+				<property name="driver" value="${orcl.driver}" />
+				<property name="url" value="${orcl.url}" />
+				<property name="username" value="${orcl.username}" />
+				<property name="password" value="${orcl.password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	
+	
+	<!-- 
+		7.databaseIdProvider:  MyBatis用来支持多数据库厂商.
+			   MyBatis可以根据底层所使用的数据库。来执行不同的sql语句.
+			   Connection.getMetaData().getDatabaseProductName() 获取到数据库厂商的标识名
+	 -->
+	 <databaseIdProvider type="DB_VENDOR">
+	 	<!-- 给不同的数据库厂商的标识名起别名 -->
+	 	<property name="MySQL" value="mysql"/>
+	 	<property name="Oracle" value="oracle"/>
+	 	<property name="SQL Server" value="sqlserver"/>
+	 </databaseIdProvider>
+	 
+	<!-- 8.mappers:引入sql映射文件
+			 mapper: 引入单个的映射文件 
+			 	resource: 引入类路径下的映射文件
+			 	url:引入网络路径或者是磁盘路径下的映射文件
+			 	class:引入Mapper接口.
+			 		1.如果有sql映射文件， 则映射文件名必须和接口名一致，并且在同一个目录下.
+			 		2.如果没有sql映射文件, 基于注解的方式，将sql语句编写到方法上.
+			 package: 批量引入sql映射文件. 要求映射文件名与接口名一致，并且在同一个目录下.
+			 
+			 	 
+	--> 
+	<mappers>
+		<!-- <mapper class="com.atguigu.mybatis.dao.EmployeeMapper" /> -->
+		<package name="com.atguigu.mybatis.dao"/>
+	</mappers>
+	
+</configuration>
