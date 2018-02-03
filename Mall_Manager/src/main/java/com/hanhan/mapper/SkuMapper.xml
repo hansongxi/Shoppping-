@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hanhan.mapper.SkuMapper">
+
+<!-- void insert_sku(T_MALL_SKU sku);
+
+	void insert_sku(Map<Object, Object> map); -->
+	<insert id="insert_sku" parameterType="com.hanhan.bean.T_MALL_SKU" 
+		useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		insert into t_mall_sku(
+			shp_id,
+			kc,
+			jg,
+			sku_mch,
+			kcdz
+		)
+		values
+		(
+			#{shp_id},
+			#{kc},
+			#{jg},
+			#{sku_mch},
+			#{kcdz}
+		)
+	</insert>
+	
+	<insert id="insert_sku_attr_value" parameterType="Map">
+		insert into T_MALL_SKU_ATTR_VALUE(
+			shxm_id,
+			shxzh_id,
+			shp_id,
+			sku_id
+		)
+		values
+		<foreach collection="list_sku_attr_value" item="av" separator=",">
+			(
+			#{av.shxm_id},
+			#{av.shxzh_id},
+			#{shp_id},
+			#{sku_id}
+			)
+		</foreach>
+		
+	</insert>
+</mapper>

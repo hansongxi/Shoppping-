@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hanhan.mapper.SpuMapper">
+
+
+	<!--查询spu信息  -->
+	
+	<select id="select_spu_list" parameterType="Map" 
+		resultType="com.hanhan.bean.T_MALL_PRODUCT">
+		select * from T_MALL_PRODUCT where flbh2=#{class_2_id} 
+			and pp_id=#{pp_id}
+	
+	</select>
+<!-- 插入product -->
+	<insert id="insert_spu" parameterType="com.hanhan.bean.T_MALL_PRODUCT" 
+		useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		insert into T_MALL_PRODUCT(
+			shp_mch,
+			shp_tp ,
+			flbh1  ,
+			flbh2  ,
+			pp_id  ,
+			shp_msh
+		) 
+		values(
+			#{shp_mch},
+			#{shp_tp },
+			#{flbh1  },
+			#{flbh2  },
+			#{pp_id  },
+			#{shp_msh}
+		        
+		)
+	
+	</insert>
+	
+	<!-- 插入product_imge -->
+	<insert id="insert_spu_img" parameterType="Map">
+		insert into T_MALL_PRODUCT_IMAGE(shp_id,url)
+		values
+		<foreach collection="list_image" item="image" separator=",">
+			(#{spu_id},#{image})
+		</foreach>
+	</insert>
+	
+</mapper>
