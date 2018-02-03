@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hanhan.mapper.UserMapper">
+	<!--
+		T_MALL_USER_ACCOUNT select_user(T_MALL_USER_ACCOUNT user);
+
+		void insert_user(T_MALL_USER_ACCOUNT user);
+	
+		void update_user(T_MALL_USER_ACCOUNT user);
+	
+		void delete_user(T_MALL_USER_ACCOUNT user);
+	
+	  -->
+	  <select id="select_user" parameterType="com.hanhan.bean.T_MALL_USER_ACCOUNT"
+	  	resultType="com.hanhan.bean.T_MALL_USER_ACCOUNT">
+	  		SELECT * FROM t_mall_user_account where  yh_mch = #{yh_mch}
+						and yh_mm = #{yh_mm}
+	  </select>
+	  <insert id="insert_user" parameterType="com.hanhan.bean.T_MALL_USER_ACCOUNT">
+	  		INSERT INTO t_mall_user_account(
+				yh_mch,
+				yh_nch,
+				yh_mm,
+				yh_xm,
+				yh_shjh,
+				yh_yx,
+				yh_tx,
+				yh_jb,
+				yh_jb
+	  			
+	  		)
+			values(
+				#{yh_mch},
+				#{yh_nch},
+				#{yh_mm},
+				#{yh_xm},
+				#{yh_shjh},
+				#{yh_yx},
+				#{yh_tx},
+				#{yh_jb},
+				#{yh_jb}
+			)
+	  </insert>
+	  <update id="update_user" parameterType="com.hanhan.bean.T_MALL_USER_ACCOUNT">
+	  		UPDATE t_mall_user_account 
+	  		SET
+	  			yh_mch=#{yh_mch},
+				yh_nch=#{yh_nch},
+				yh_mm=#{yh_mm},
+				yh_xm=#{yh_xm},
+				yh_shjh=#{yh_shjh},
+				yh_yx=#{yh_yx},
+				yh_tx=#{yh_tx},
+				yh_jb=#{yh_jb},
+				yh_jb=#{yh_jb}
+	  		where 
+	  			id=#{id}
+	  </update>
+	  <delete id="delete_user" parameterType="com.hanhan.bean.T_MALL_USER_ACCOUNT">
+	  		DELETE FROM t_mall_user_account WHERE Id=#{id}
+	  </delete>
+</mapper>
