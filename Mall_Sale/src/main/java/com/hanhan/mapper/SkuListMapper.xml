@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hanhan.mapper.SkuListMapper">
+
+
+	<!--select_sku_list_by_spuid  -->
+	<select id="select_sku_list_by_spuid" parameterType="int" 
+		resultType="com.hanhan.bean.T_MALL_SKU">  
+		select * from t_mall_sku where shp_id = #{spu_id}
+	</select>
+
+
+	<!--select_sku_detail  -->
+	<select id="select_sku_detail" parameterType="int" 
+		resultMap="select_sku_detail_map">
+	SELECT
+		attr.shxm_mch AS attrName,
+		CONCAT(val.shxzh, val.shxzh_mch) AS
+		valueName,
+		sku.id AS sku_id,
+		spu.id AS spu_id,
+		img.Id AS img_id,
+		spu.*,
+		img.*, sku.*
+	FROM
+		t_mall_product spu,
+		t_mall_sku sku,
+		t_mall_product_image img,
+		t_mall_sku_attr_value av,
+		t_mall_attr attr,
+		t_mall_value val
+	WHERE
+		spu.Id = sku.shp_id
+		AND spu.Id = img.shp_id
+		AND sku.id = av.sku_id
+		AND av.shxm_id = attr.id
+		AND av.shxzh_id = val.id
+		AND attr.id = val.shxm_id
+		AND sku.id = #{sku_id}
+	
+	</select>
+	<resultMap type="com.hanhan.bean.DETAIL_T_MALL_SKU" id="select_sku_detail_map" 
+			autoMapping="true">
+			<result column="sku_id" property="id"/>
+		<association property="spu" javaType="com.hanhan.bean.T_MALL_PRODUCT" autoMapping="true">
+			<result column="spu_id" property="id"/>
+		</association>
+		<collection property="list_image" ofType="com.hanhan.bean.T_MALL_PRODUCT_IMAGE" autoMapping="true">
+			<result column="img_id" property="id"/>
+		</collection>
+		<collection property="list_av_name" ofType="com.hanhan.bean.OBJECT_T_MALL_ATTR_NAME" autoMapping="true">
+		</collection>
+	</resultMap>
+
+
+<!--select_sku_list_by_attr  -->
+	<select id="select_sku_list_by_attr" parameterType="Map"
+		resultMap="select_sku_list_by_class2_map" >
+			select sku.id sku_id,spu.id spu_id,tm.id tm_id,
+			sku.*,spu.*,tm.*
+			from 
+			t_mall_sku sku,
+			t_mall_product spu,
+			t_mall_trade_mark tm
+			where 
+			spu.Id=sku.shp_id AND
+			spu.pp_id=tm.Id AND
+			spu.flbh2=#{class_2_id}
+			${sql}
+	</select>
+
+
+<!--select_sku_list_by_class2  -->
+	<select id="select_sku_list_by_class2" parameterType="int"
+		resultMap="select_sku_list_by_class2_map" >
+			select sku.id sku_id,spu.id spu_id,tm.id tm_id,
+			sku.*,spu.*,tm.*
+			from 
+			t_mall_sku sku,
+			t_mall_product spu,
+			t_mall_trade_mark tm
+			where 
+			spu.Id=sku.shp_id AND
+			spu.pp_id=tm.Id AND
+			spu.flbh2=#{class_2_id}
+	</select>
+	<resultMap type="com.hanhan.bean.OBJECT_T_MALL_SKU" 
+		id="select_sku_list_by_class2_map" autoMapping="true">
+			<result column="sku_id" property="id"/>
+		<association property="spu" javaType="com.hanhan.bean.T_MALL_PRODUCT" autoMapping="true">
+			<result column="spu_id" property="id"/>
+		</association>
+		<association property="tm" javaType="com.hanhan.bean.T_MALL_TRADE_MARK" autoMapping="true">
+			<result column="tm_id" property="id"/>
+		</association>
+	</resultMap>
+</mapper>

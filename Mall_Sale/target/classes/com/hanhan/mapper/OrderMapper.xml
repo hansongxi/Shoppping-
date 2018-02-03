@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hanhan.mapper.OrderMapper">
+	<!-- 
+	  	void insert_order(Map<String, Object> map);
+
+		void insert_flow(T_MALL_FLOW t_MALL_FLOW);
+		
+		void insert_order_info(Map<String, Object> info_map);
+	  
+	  	void deleteCart(List<Integer> list_cart_id);
+	   -->
+	  <insert id="insert_order" parameterType="Map" useGeneratedKeys="true"
+	  	keyColumn="id" keyProperty="order.id"
+	  >
+	  	insert into t_mall_order(
+			shhr,
+			zje,
+			jdh,
+			yh_id,
+			dzh_id,
+			dzh_mch
+	  	)
+	  	values(
+	  		#{address.shjr},
+			#{order.zje},
+			#{order.jdh},
+			#{address.yh_id},
+			#{address.id},
+			#{address.yh_dz}
+	  	)
+	  </insert>
+	  <insert id="insert_flow" parameterType="com.hanhan.bean.T_MALL_FLOW"
+	  	useGeneratedKeys="true" keyColumn="id" keyProperty="id"
+	  >
+	  	insert into t_mall_flow(
+			psfsh,
+			yh_id,
+			dd_id,
+			mqdd,
+			mdd
+	  	)
+	  	values(
+	  		#{psfsh},
+			#{yh_id},
+			#{dd_id},
+			#{mqdd},
+			#{mdd}
+	  	)
+	  </insert>
+	  <insert id="insert_order_info" parameterType="Map">
+	  	insert into t_mall_order_info(
+			dd_id,
+			sku_id,
+			sku_mch,
+			shp_tp,
+			sku_jg,
+			sku_shl,
+			sku_kcdz,
+			flow_id,
+			gwch_id
+	  	)
+	  	values
+	  	<foreach collection="list_info" item="info" separator=",">
+	  	(
+	  		#{dd_id},
+			#{info.sku_id},
+			#{info.sku_mch},
+			#{info.shp_tp},
+			#{info.sku_jg},
+			#{info.sku_shl},
+			#{info.sku_kcdz},
+			#{flow_id},
+			#{info.gwch_id}
+	  	)
+	  	</foreach>
+	  </insert>
+	  <delete id="deleteCart" parameterType="List">
+	  	delete from T_MALL_SHOPPINGCAR where id in
+	  	<foreach collection="list" item="cart_id" separator="," open="(" close=")">
+	  		#{cart_id}
+	  	</foreach>
+	  </delete>
+</mapper>
