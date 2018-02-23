@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hanhan.mapper.SkuMapper">
+<!--
+	List<OBJECT_T_MALL_SKU> select_sku_list_by_attr(Map<Object, Object> map);
+
+  -->
+  <select id="select_sku_list_by_attr" parameterType="Map"
+		resultMap="select_sku_list_by_class2_map" >
+			select sku.id sku_id,spu.id spu_id,tm.id tm_id,
+			sku.*,spu.*,tm.*
+			from 
+			t_mall_sku sku,
+			t_mall_product spu,
+			t_mall_trade_mark tm
+			where 
+			spu.Id=sku.shp_id AND
+			spu.pp_id=tm.Id AND
+			spu.flbh2=#{class_2_id}
+			${sql}
+	</select>
+	<resultMap type="com.hanhan.bean.OBJECT_T_MALL_SKU" 
+		id="select_sku_list_by_class2_map" autoMapping="true">
+			<result column="sku_id" property="id"/>
+		<association property="spu" javaType="com.hanhan.bean.T_MALL_PRODUCT" autoMapping="true">
+			<result column="spu_id" property="id"/>
+		</association>
+		<association property="tm" javaType="com.hanhan.bean.T_MALL_TRADE_MARK" autoMapping="true">
+			<result column="tm_id" property="id"/>
+		</association>
+	</resultMap>
+
+
+ 
+
+
+
 
 <!-- void insert_sku(T_MALL_SKU sku);
 

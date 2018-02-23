@@ -13,6 +13,8 @@ public interface AttrMapper {
 
 	List<OBJECT_T_MALL_ATTR> select_attr_list(int class_2_id);
 
+	List<Integer> select_list_value_id_by_attr_id(int attr_id);
+
 	
 
 }

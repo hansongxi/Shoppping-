@@ -13,7 +13,7 @@ public interface SkuListService {
 
 	List<OBJECT_T_MALL_SKU> get_sku_list_by_class2(int class_2_id);
 
-	List<OBJECT_T_MALL_SKU> get_sku_list_by_attr(int class_2_id, List<T_MALL_SKU_ATTR_VALUE> list_sku_attr_value);
+	List<OBJECT_T_MALL_SKU> get_sku_list_by_attr(int class_2_id, List<T_MALL_SKU_ATTR_VALUE> list_sku_attr_value,String order);
 
 	DETAIL_T_MALL_SKU get_sku_detail(int sku_id);
 

@@ -67,6 +67,7 @@
 			spu.pp_id=tm.Id AND
 			spu.flbh2=#{class_2_id}
 			${sql}
+			${order}
 	</select>
 
 

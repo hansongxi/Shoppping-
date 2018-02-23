@@ -23,6 +23,7 @@ import com.hanhan.bean.T_MALL_FLOW;
 import com.hanhan.bean.T_MALL_ORDER_INFO;
 import com.hanhan.bean.T_MALL_SHOPPINGCAR;
 import com.hanhan.bean.T_MALL_USER_ACCOUNT;
+import com.hanhan.exception.OverSaleException;
 import com.hanhan.mapper.AddressMapper;
 import com.hanhan.server.AddressServer;
 import com.hanhan.service.OrderService;
@@ -148,5 +149,15 @@ public class OrderController {
 	@RequestMapping("goto_pay")
 	public String goto_pay() {
 		return "sale_pay";
+	}
+	@RequestMapping("pay_after")
+	public String pay_after(@ModelAttribute("order") OBJECT_T_MALL_ORDER order) {
+		try {
+			orderService.pay_after(order);
+		} catch (OverSaleException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "sale_success";
 	}
 }

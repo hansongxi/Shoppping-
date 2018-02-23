@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hanhan.bean.OBJECT_T_MALL_ATTR;
+import com.hanhan.bean.OBJECT_T_MALL_SKU;
 import com.hanhan.bean.T_MALL_PRODUCT;
+import com.hanhan.bean.T_MALL_SKU_ATTR_VALUE;
 import com.hanhan.mapper.AttrMapper;
 import com.hanhan.mapper.SpuMapper;
 
@@ -40,6 +42,15 @@ public class AttrServiceImpl implements AttrService {
 	public List<OBJECT_T_MALL_ATTR> get_attr_list(int class_2_id) {
 		
 		return attrMapper.select_attr_list(class_2_id);
+	}
+	
+	
+	//查询attr_id对应的value_id的集合
+	@Override
+	public List<Integer> get_list_value_id_by_attr_id(int attr_id) {
+		List<Integer> list_value_id = 
+				attrMapper.select_list_value_id_by_attr_id(attr_id);
+		return list_value_id;
 	}
 	
 

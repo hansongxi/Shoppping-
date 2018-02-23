@@ -12,7 +12,9 @@ import com.hanhan.bean.OBJECT_T_MALL_FLOW;
 import com.hanhan.bean.OBJECT_T_MALL_ORDER;
 import com.hanhan.bean.T_MALL_ADDRESS;
 import com.hanhan.bean.T_MALL_ORDER_INFO;
+import com.hanhan.exception.OverSaleException;
 import com.hanhan.mapper.OrderMapper;
+import com.hanhan.utils.MyDateUtil;
 
 @Service
 public class OrderServiceImpl implements OrderService{
@@ -66,4 +68,57 @@ public class OrderServiceImpl implements OrderService{
 		orderMapper.deleteCart(list_cart_id);
 }
 
+
+	//修改订单之后的状态
+	@Override
+	public void pay_after(OBJECT_T_MALL_ORDER order) throws OverSaleException {
+		// TODO Auto-generated method stub
+		List<OBJECT_T_MALL_FLOW> list_flow = order.getList_flow();
+		for (int i = 0; i < list_flow.size(); i++) {
+			OBJECT_T_MALL_FLOW flow = list_flow.get(i);
+			List<T_MALL_ORDER_INFO> list_info = flow.getList_info();
+			for (int j = 0; j < list_info.size(); j++) {
+				int sku_id = list_info.get(j).getSku_id();
+				// 查询剩余sku数量
+				long kc = get_kc(sku_id);
+
+				if (kc > list_info.get(j).getSku_shl()) {
+					// 更新sku库存，增加销量
+					orderMapper.update_kc(list_info.get(j));
+				} else {
+					// sku数量不足，回滚订单操作，给出提示
+					throw new OverSaleException("over sale");
+				}
+			}
+			// 生成物流包裹的其他信息，配送时间，配送描述，业务员，联系方式
+			flow.setLxfsh("12312312313");
+			flow.setPsshj(MyDateUtil.getMyDate(1));// 物流接口,可以知道什么时候发货
+			flow.setPsmsh("商品正在出库");
+			flow.setYwy("老佟");
+			
+			orderMapper.update_flow(flow);
+		}
+		// 修改订单状态，预计送达时间
+		order.setJdh(3);
+		order.setYjsdshj(MyDateUtil.getMyDate(3));// 物流接口
+		orderMapper.update_order(order);
+	}
+
+
+	private long get_kc(int sku_id) {
+		long kc = 0l;
+
+		// 库存查询的业务，加入查询锁，保证不会发生不可重复读的事务
+		int select_count = orderMapper.select_count(sku_id);
+
+		if (select_count == 1) {
+			kc = orderMapper.select_kc(sku_id);
+		} else {
+			kc = orderMapper.select_kc_for_update(sku_id);
+		}
+
+		return kc;
+	}
 }
+
+

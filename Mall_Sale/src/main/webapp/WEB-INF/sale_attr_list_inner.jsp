@@ -37,6 +37,7 @@
 			param= param +"&list_sku_attr_value["+i+"].shxm_id="+json.shxm_id+"&list_sku_attr_value["+i+"].shxzh_id="+json.shxzh_id;
 		});
 		
+		param = param+"&order="+$("#order").val();
  		$.get("get_sku_list_by_attr.do",param, function(html) {
 			$("#sku_list_inner").html(html);
 		}); 
@@ -65,16 +66,25 @@
 			$("#sku_list_inner").html(data);
 			});
 	}
-	
+	function search_order(new_order){
+		
+		var old_order = $("#order").val();
+		if(new_order == old_order){
+			new_order = new_order+"desc";
+		}
+		$("#order").val(new_order);
+		get_sku_list_json();
+	}
 	
 	
 </script>
 </head>
 <body>
-	<h2>属性列表</h2>12
+	<h2>属性列表</h2>
 	<div id="attr_param" style="display: none;">
 		属性值区域
 	</div>
+	<input id="order" type="text" value=" order by jg"/>
 	<c:forEach items="${list_attr}" var="attr" varStatus="status">
 		${attr.shxm_mch}:
 		<c:forEach items="${attr.list_value}" var="val">
@@ -85,5 +95,9 @@
 		</c:forEach>
 		<br>
 	</c:forEach>
+	排序
+	<a href="javascript:search_order(' order by sku_xl ')">销量</a>
+	<a href="javascript:search_order(' order by jg ')">价格</a>
+	<a href="javascript:search_order(' order by sku.chjshj ')">上架时间</a>
 </body>
 </html>

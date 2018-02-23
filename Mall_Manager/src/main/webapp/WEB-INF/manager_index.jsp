@@ -83,7 +83,9 @@
 					</li>
 				</ul>
 			</div>
-			<div title="订单管理"></div>
+			<div title="缓存管理"  data-options="iconCls:'icon-search'" style="padding:10px;">
+				<a href="javascript:add_tab('goto_cache.do','商品属性缓存');">商品信息的缓存管理</a>
+			</div>
 		</div>
 	</div>
 	<div data-options="region:'east',split:true,collapsed:true,title:'East'" style="width:100px;padding:10px;">east region</div>

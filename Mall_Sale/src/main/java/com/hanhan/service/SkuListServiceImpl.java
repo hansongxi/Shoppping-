@@ -26,7 +26,7 @@ public class SkuListServiceImpl implements SkuListService {
 	}
 
 	@Override
-	public List<OBJECT_T_MALL_SKU> get_sku_list_by_attr(int class_2_id, List<T_MALL_SKU_ATTR_VALUE> list_av) {
+	public List<OBJECT_T_MALL_SKU> get_sku_list_by_attr(int class_2_id, List<T_MALL_SKU_ATTR_VALUE> list_av,String order) {
 		// 根据属性集合动态拼接属性过滤的sql语句
 		StringBuffer sql = new StringBuffer();
 
@@ -70,6 +70,7 @@ public class SkuListServiceImpl implements SkuListService {
 			sql.append(" ) ");
 			map.put("sql", sql.toString());
 		}
+		map.put("order", order);
 
 		List<OBJECT_T_MALL_SKU> list_sku = skuListMapper.select_sku_list_by_attr(map);
 		return list_sku;

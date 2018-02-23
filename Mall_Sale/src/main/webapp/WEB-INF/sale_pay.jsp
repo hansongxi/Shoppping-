@@ -13,6 +13,6 @@
 <title>商城</title>
 </head>
 <body>
-		<h2>支付成功</h2>
+		<a href="pay_after"/>支付成功</a>
 </body>
 </html>

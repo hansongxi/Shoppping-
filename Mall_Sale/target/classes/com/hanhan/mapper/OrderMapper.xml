@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hanhan.mapper.OrderMapper">
+	
+	
+	
+	<!--  
+		void update_kc(T_MALL_ORDER_INFO t_MALL_ORDER_INFO);
+
+		void update_flow(OBJECT_T_MALL_FLOW flow);
+	
+		void update_order(OBJECT_T_MALL_ORDER order);
+	
+	-->
+	
+	<update id="update_kc" parameterType="com.hanhan.bean.T_MALL_ORDER_INFO">
+		update t_mall_sku set kc =
+		kc - #{sku_shl} ,sku_xl = sku_xl + #{sku_shl}
+		where id = #{sku_id} 
+	</update>
+	<update id="update_flow" parameterType="com.hanhan.bean.OBJECT_T_MALL_FLOW">
+		update t_mall_flow
+		<set>
+			<if test="1==1">
+				ywy = #{ywy},
+			</if>
+			<if test="1==1">
+				lxfsh = #{lxfsh},
+			</if>
+			<if test="1==1">
+				psmsh = #{psmsh},
+			</if>
+			<if test="1==1">
+				psshj = #{psshj},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<update id="update_order" parameterType="com.hanhan.bean.OBJECT_T_MALL_ORDER">
+		update t_mall_order
+		<set>
+			<if test="1==1">
+				jdh = #{jdh},
+			</if>
+			<if test="1==1">
+				yjsdshj = #{yjsdshj}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	
 	<!-- 
 	  	void insert_order(Map<String, Object> map);
 
@@ -81,4 +130,23 @@
 	  		#{cart_id}
 	  	</foreach>
 	  </delete>
+	  
+	  <!--  
+	  	void update_kc(T_MALL_ORDER_INFO t_MALL_ORDER_INFO);
+
+		int select_count(int sku_id);
+	
+		long select_kc(int sku_id);
+	
+		long select_kc_for_update(int sku_id);
+	  -->
+	  <select id="select_count" resultType="int" parameterType="int">
+	  	select count(1) t_mall_sku where sku_id=#{sku_id} where kc>10
+	  </select>
+	  <select id="select_kc" parameterType="int" resultType="long">
+	  	select kc t_mall_sku where id=#{sku_id}
+	  </select>
+	  <select id="select_kc_for_update" parameterType="int" resultType="long">
+	  	select kc t_mall_sku where id=#{sku_id} for update
+	  </select> 
 </mapper>
