@@ -5,12 +5,18 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +39,12 @@ public class LoginController {
 
 	@Autowired
 	private UserServer userServer;
+	
+	@Autowired
+	JmsTemplate jmsTemplate;
+	
+	@Autowired
+	ActiveMQQueue queueDestination;
 	
 	// 登录功能
 	@RequestMapping("goto_sale_login")
@@ -96,7 +108,15 @@ public class LoginController {
 		// 需要的数据：list_shopcart_cookies,list_cart_db,select_user,response,session)
 		List<T_MALL_SHOPPINGCAR> list_cart_db = shoppingCartService.get_shop_cart_by_userid(select_user);
 		merge_cart(list_shopcart_cookies, list_cart_db, select_user, response, session);
-
+		//向消息队列发布信息
+		int user_id = select_user.getId();
+		String user_mch=select_user.getYh_mch();
+		jmsTemplate.send(queueDestination, new MessageCreator() {
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				return session.createTextMessage("user_id"+user_id +"user_mch"+user_mch);
+			}
+		});
 		return "redirect:/index.do";
 	}
 
